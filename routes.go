@@ -1,14 +1,14 @@
 package main
 
 import (
-    "net/http"
-    "github.com/gorilla/mux"
+	"github.com/gorilla/mux"
+	"net/http"
 )
 
 type Route struct {
-    Method      string
-    Pattern     string
-    HandlerFunc http.HandlerFunc
+	Method      string
+	Pattern     string
+	HandlerFunc http.HandlerFunc
 }
 
 type Routes []Route
@@ -22,15 +22,15 @@ type Routes []Route
 
 func (s *Service) newRouter() {
 
-    router := mux.NewRouter().StrictSlash(true)
-    for _, route := range routes {
-        router.
-            Methods(route.Method).
-            Path(route.Pattern).
-            Handler(route.HandlerFunc)
-    }
+	router := mux.NewRouter().StrictSlash(true)
+	for _, route := range routes {
+		router.
+			Methods(route.Method).
+			Path(route.Pattern).
+			Handler(route.HandlerFunc)
+	}
 
-    s.Router = router
+	s.Router = router
 }
 
 // handler functions are in handlers.go

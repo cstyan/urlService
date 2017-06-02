@@ -2,14 +2,14 @@ package main
 
 import (
 	"./dataStore"
-	"net/http"
 	"github.com/gorilla/mux"
 	"log"
+	"net/http"
 )
 
 type Service struct {
 	DataStore dataStore.DataStore
-	Router *mux.Router
+	Router    *mux.Router
 }
 
 func (s *Service) queryDataStore(url string) bool {

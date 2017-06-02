@@ -1,9 +1,9 @@
 package dataStore
 
 import (
-	"strings"
-	"log"
 	"fmt"
+	"log"
+	"strings"
 )
 
 type DataStore interface {

@@ -1,10 +1,10 @@
 package main
 
 import (
-    "net/http"
-    "log"
-    "github.com/gorilla/mux"
-    "io/ioutil"
+	"github.com/gorilla/mux"
+	"io/ioutil"
+	"log"
+	"net/http"
 )
 
 // TODO: better names for these handlers
@@ -19,7 +19,7 @@ func (s *Service) getHandler(writer http.ResponseWriter, req *http.Request) {
 	}
 	writer.WriteHeader(200)
 	writer.Write([]byte("false"))
-	log.Println("200, url not found in data store.")	
+	log.Println("200, url not found in data store.")
 }
 
 func (s *Service) uploadHandler(writer http.ResponseWriter, req *http.Request) {
