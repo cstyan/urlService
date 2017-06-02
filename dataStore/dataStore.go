@@ -1,15 +1,21 @@
-package urlsearch
+package dataStore
 
 import (
 	"strings"
+	"log"
 	"fmt"
 )
 
-type dataStore interface {
+type DataStore interface {
 	Query(url string) bool
 	// for now lets assume urls will be uploaded to us
 	// via a comma separated list as one string
 	Upload(urls string) bool
+	// data stores that are accessing databases should
+	// pull authentication from env vars instead of
+	// by passing params to this function
+	Initialize() error
+	String()
 }
 
 type LocalDataStore struct {
@@ -20,6 +26,7 @@ type LocalDataStore struct {
 // from the description we don't actually need to know the value
 // any url in the list has the property the consumer wants to know about
 func (data LocalDataStore) Query(url string) bool {
+	log.Println("checking data store for url: ", url)
 	_, ok := data.storage[url]
 	return ok
 }
@@ -30,10 +37,16 @@ func (data LocalDataStore) Query(url string) bool {
 func (data LocalDataStore) Upload(urls string) bool {
 	eachUrl := strings.Split(urls, ",")
 	for _, url := range eachUrl {
+		log.Println("adding url ", url, "to data store.")
 		data.storage[url] = true
 	}
 	// remote data stores (redis) may fail for some reason?
 	return true
+}
+
+func (data LocalDataStore) Initialize() error {
+	// don't really need this function for local data store
+	return nil
 }
 
 // for convenience/testing
