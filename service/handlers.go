@@ -23,6 +23,8 @@ func (s *Service) getHandler(writer http.ResponseWriter, req *http.Request) {
 	log.Println("200, url not found in data store.")
 }
 
+// TODO: upload currently only errors if parsing the request body fails
+// is there anything failure case we're not thinking of?
 func (s *Service) uploadHandler(writer http.ResponseWriter, req *http.Request) {
 	// for now we're just handling plain text comma separated lists of urls
 	data, err := ioutil.ReadAll(req.Body)
