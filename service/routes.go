@@ -1,4 +1,4 @@
-package main
+package urlservice
 
 import (
 	"github.com/gorilla/mux"
@@ -21,6 +21,10 @@ type Routes []Route
 // subrouter.HandleFunc("/{url}", getHandler)
 
 func (s *Service) newRouter() {
+	var routes = Routes{
+		Route{"GET", "/urlinfo/v1/{check_url}", s.getHandler},
+		Route{"POST", "/urlinfo/v1/upload", s.uploadHandler},
+	}
 
 	router := mux.NewRouter().StrictSlash(true)
 	for _, route := range routes {
@@ -31,11 +35,4 @@ func (s *Service) newRouter() {
 	}
 
 	s.Router = router
-}
-
-// handler functions are in handlers.go
-// TODO: make this not global?
-var routes = Routes{
-	Route{"GET", "/urlinfo/v1/{check_url}", service.getHandler},
-	Route{"POST", "/urlinfo/v1/upload", service.uploadHandler},
 }

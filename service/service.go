@@ -1,7 +1,7 @@
-package main
+package urlservice
 
 import (
-	"./dataStore"
+	"../dataStore"
 	"github.com/gorilla/mux"
 	"log"
 	"net/http"

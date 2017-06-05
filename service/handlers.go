@@ -1,4 +1,4 @@
-package main
+package urlservice
 
 import (
 	"github.com/gorilla/mux"
@@ -11,6 +11,7 @@ import (
 
 func (s *Service) getHandler(writer http.ResponseWriter, req *http.Request) {
 	requestVars := mux.Vars(req)
+	// TODO: handle the var not being present
 	if s.DataStore.Query(requestVars["check_url"]) {
 		writer.WriteHeader(200)
 		writer.Write([]byte("true"))

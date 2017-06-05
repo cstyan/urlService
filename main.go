@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"./service"
 	// "github.com/gorilla/mux"
 	// "net/http"
 	// "github.com/jessevdk/go-flags"
@@ -14,7 +15,7 @@ import (
 // }
 
 // TODO: get rid of this global, need an easier way to pass data store to handlers
-var service Service
+var service urlservice.Service
 
 func main() {
 	// var opts options
