@@ -7,6 +7,7 @@ import (
 )
 
 type DataStore interface {
+	Clear() error
 	Query(url string) bool
 	// for now lets assume urls will be uploaded to us
 	// via a comma separated list as one string
@@ -20,6 +21,11 @@ type DataStore interface {
 
 type LocalDataStore struct {
 	storage map[string]bool
+}
+
+func (data LocalDataStore) Clear() error {
+	data.storage = make(map[string]bool)
+	return nil
 }
 
 // we just want to know "does this url exist in the list"
