@@ -1,7 +1,6 @@
 package dataStore
 
 import (
-	"fmt"
 	"log"
 	"strings"
 )
@@ -58,7 +57,7 @@ func (data LocalDataStore) Initialize() error {
 // for convenience/testing
 func (data LocalDataStore) String() {
 	for key, _ := range data.storage {
-		fmt.Println(key)
+		log.Println(key)
 	}
 }
 
