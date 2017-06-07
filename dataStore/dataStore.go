@@ -1,16 +1,17 @@
 package dataStore
 
 import (
+	"fmt"
 	"log"
 	"strings"
 )
 
 type DataStore interface {
 	Clear() error
-	Query(url string) bool
+	Query(url string) (bool, error)
 	// for now lets assume urls will be uploaded to us
 	// via a comma separated list as one string
-	Upload(urls string) bool
+	Upload(urls string, malicious bool) bool
 	// data stores that are accessing databases should
 	// pull authentication from env vars instead of
 	// by passing params to this function
@@ -30,20 +31,24 @@ func (data LocalDataStore) Clear() error {
 // we just want to know "does this url exist in the list"
 // from the description we don't actually need to know the value
 // any url in the list has the property the consumer wants to know about
-func (data LocalDataStore) Query(url string) bool {
+func (data LocalDataStore) Query(url string) (bool, error) {
 	log.Println("checking data store for url: ", url)
-	_, ok := data.storage[url]
-	return ok
+	val, ok := data.storage[url]
+	if !ok {
+		// false is the zero value for a bool
+		return false, fmt.Errorf("url: %s not found in data store", url)
+	}
+	return val, nil
 }
 
 // lets not care about the case where we're sent duplicate urls
 // or urls the store already knows about for now
 // it's not entirely clear if that's a case we actually care about
-func (data LocalDataStore) Upload(urls string) bool {
+func (data LocalDataStore) Upload(urls string, malicious bool) bool {
 	eachUrl := strings.Split(urls, ",")
 	for _, url := range eachUrl {
 		log.Println("adding url ", url, "to data store.")
-		data.storage[url] = true
+		data.storage[url] = malicious
 	}
 	// remote data stores (redis) may fail for some reason?
 	return true

@@ -1,10 +1,10 @@
 package dataStore
 
 import (
-	"testing"
 	"io/ioutil"
-	"os"
 	"log"
+	"os"
+	"testing"
 )
 
 var dataStore = NewLocalDataStore()
@@ -35,27 +35,42 @@ func TestQueryHasUrlLocalDataStore(t *testing.T) {
 	clearData()
 
 	dataStore.storage["asdf.com"] = true
-	if !dataStore.Query("asdf.com") {
-		t.Error("Added URL to storage, but Query for that URL returned false.")
+	_, err := dataStore.Query("asdf.com")
+
+	if err != nil {
+		t.Error("Added URL to storage, but Query for that URL returned an error.")
 	}
 }
 
 func TestQueryNoUrlLocalDataStore(t *testing.T) {
 	clearData()
 
-	if dataStore.Query("asdf.com") {
+	_, err := dataStore.Query("asdf.com")
+	if err == nil {
 		t.Error("Local data store is empty, but Query for a URL returned true.")
 	}
 }
 
 // upload doesn't really fail for local data store?
-func TestUploadLocalDataStore(t *testing.T) {
+func TestUploadTrueLocalDataStore(t *testing.T) {
 	clearData()
 
-	if !dataStore.Upload("asdf.com,aaa.com") {
+	if !dataStore.Upload("asdf.com,aaa.com", true) {
 		t.Error("Upload returned false, this should never happen at the moment.")
 	}
 	if dataStore.storage["asdf.com"] != true || dataStore.storage["aaa.com"] != true {
+		t.Error("Upload did not work properly, one or more of the specified URLs is not in the storage")
+	}
+}
+
+// upload doesn't really fail for local data store?
+func TestUploadFalseLocalDataStore(t *testing.T) {
+	clearData()
+
+	if !dataStore.Upload("asdf.com,aaa.com", false) {
+		t.Error("Upload returned false, this should never happen at the moment.")
+	}
+	if dataStore.storage["asdf.com"] != false || dataStore.storage["aaa.com"] != false {
 		t.Error("Upload did not work properly, one or more of the specified URLs is not in the storage")
 	}
 }

@@ -23,7 +23,8 @@ type Routes []Route
 func (s *Service) newRouter() {
 	var routes = Routes{
 		Route{"GET", "/urlinfo/v1/{check_url}", s.getHandler},
-		Route{"POST", "/urlinfo/v1/upload", s.uploadHandler},
+		Route{"POST", "/urlinfo/v1/blacklist", s.uploadHandler},
+		Route{"POST", "/urlinfo/v1/whitelist", s.uploadHandler},
 	}
 
 	router := mux.NewRouter().StrictSlash(true)

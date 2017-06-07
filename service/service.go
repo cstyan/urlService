@@ -10,9 +10,13 @@ import (
 type Service struct {
 	DataStore dataStore.DataStore
 	Router    *mux.Router
+	malicious map[string]bool
 }
 
 func (s *Service) InitService() {
+	s.malicious = make(map[string]bool)
+	s.malicious["whitelist"] = false
+	s.malicious["blacklist"] = true
 	// is there an easier way to replace the data store type
 	// TODO: error check here for other data store types
 	s.DataStore = dataStore.NewLocalDataStore()
