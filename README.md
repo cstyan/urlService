@@ -1,10 +1,10 @@
 # URL Service
 The goal of this service is to provide an interface to upload and query for URLs, returning some information to the user. One basic use case is white/blacklisting URLs.
 
-Currently the service is implemented in Go, using Gorilla mux to provide a basic REST interface. The service makes use of a map to store the 
+Currently the service is implemented in Go, using Gorilla mux to provide a basic REST interface. The service makes use of a k/v store to store the 
 URLs and whether or not it's blacklisted (true/false). Ideally the data store can replaced with any remote storage (MySQL, redis, whatever) and
 the implementer just has to provide the functions from the data store interface, and the constraints around what information about a URL is stored 
-and how to decide if a URL is white or blacklisted can be decided by the implementer.
+and how to decide if a URL is white or blacklisted can be decided by the implementer. At the moment redis and go map stores are implemented in the dataStore package.
 
 In the future, the "store info about this URL" endpoint and "get info about this URL" endpoint should probably be separate services, those 
 workloads will scale differently.
