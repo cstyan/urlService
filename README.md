@@ -9,13 +9,17 @@ and how to decide if a URL is white or blacklisted can be decided by the impleme
 In the future, the "store info about this URL" endpoint and "get info about this URL" endpoint should probably be separate services, those 
 workloads will scale differently.
 
+# Dependencies
+Working docker and golang installs
+
 # Building
 We assume you already have a box with a Golang install (I am using Go v1.8 on base Ubuntu).
-	go get github.com/gorilla/mux
-	go build
 
-A helper script is provided to run the service as a docker container.
+A helper script is provided to build the service as a docker container, check there for manual
+steps if you wish to build the binary separately from the doontainer..
 
 # Running
-The service listens on port 8080 by default. The endpoints `/urlinfo/v1/{url}` and `/urlinfo/v1/upload` are implemented.
-A helper script for running the service in docker is provided, it maps hardcoded ports at the moment.
+A helper script is provided that runs the service and redis containers via docker, it maps hardcoded ports at the moment.  
+The service listens on port 8080 by default. The endpoints `/urlinfo/v1/{url}`, `/urlinfo/v1/whitelist`, and `/urlinfo/v1/blacklist` are implemented.
+
+As an example, you could whitelist urls via curl: `curl -X POST -d "aaa.com,bbbb.com" localhost:8080/urlinfo/v1/whitelist`
