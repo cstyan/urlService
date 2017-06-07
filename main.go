@@ -2,6 +2,7 @@ package main
 
 import (
 	"./service"
+	"./dataStore"
 	"log"
 	"os"
 )
@@ -10,7 +11,7 @@ func main() {
 	var service urlservice.Service
 
 	log.SetOutput(os.Stdout)
-	service.InitService()
+	service.InitService(dataStore.NewRedisDataStore())
 	log.Println("Starting URLCheck service.")
 
 	// seed with some fake data to start

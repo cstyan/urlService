@@ -2,6 +2,7 @@ package main_test
 
 import (
 	"./service"
+	"./dataStore"
 	"bytes"
 	"io/ioutil"
 	"log"
@@ -37,7 +38,7 @@ func checkResponseCode(t *testing.T, expected, actual int) {
 func TestMain(m *testing.M) {
 	// remove this line if you want to see logging from internal functions
 	log.SetOutput(ioutil.Discard)
-	service.InitService()
+	service.InitService(dataStore.NewLocalDataStore())
 
 	// run all tests
 	code := m.Run()

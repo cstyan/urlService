@@ -2,9 +2,10 @@
 
 port="8080"
 
-# if [[ $1 -eq 0 ]; then 
-#   port=$1
-# fi
+# in case some containers are lying around
+docker rm -f /urlService
+docker rm -f /urlService-redis
 
+docker run --name urlService-redis -d redis
 # remove -it if we don't need interactive tty
-docker run -p 8080:8080 url-service
+docker run --link urlService-redis:redis --name urlService -p 8080:8080 url-service

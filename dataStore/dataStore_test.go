@@ -55,7 +55,7 @@ func TestQueryNoUrlLocalDataStore(t *testing.T) {
 func TestUploadTrueLocalDataStore(t *testing.T) {
 	clearData()
 
-	if !dataStore.Upload("asdf.com,aaa.com", true) {
+	if err:= dataStore.Upload("asdf.com,aaa.com", true); err != nil {
 		t.Error("Upload returned false, this should never happen at the moment.")
 	}
 	if dataStore.storage["asdf.com"] != true || dataStore.storage["aaa.com"] != true {
@@ -67,7 +67,7 @@ func TestUploadTrueLocalDataStore(t *testing.T) {
 func TestUploadFalseLocalDataStore(t *testing.T) {
 	clearData()
 
-	if !dataStore.Upload("asdf.com,aaa.com", false) {
+	if err:= dataStore.Upload("asdf.com,aaa.com", false); err != nil {
 		t.Error("Upload returned false, this should never happen at the moment.")
 	}
 	if dataStore.storage["asdf.com"] != false || dataStore.storage["aaa.com"] != false {
